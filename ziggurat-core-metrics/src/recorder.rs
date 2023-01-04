@@ -59,16 +59,6 @@ impl Snapshot {
 
 pub struct TestMetrics(Snapshotter);
 
-impl TestMetrics {
-    fn new() -> TestMetrics {
-        let recorder = DebuggingRecorder::new();
-        let snapshotter = recorder.snapshotter();
-        let _ = recorder.install();
-
-        TestMetrics(snapshotter)
-    }
-}
-
 impl Default for TestMetrics {
     fn default() -> Self {
         Self::new()
@@ -76,6 +66,14 @@ impl Default for TestMetrics {
 }
 
 impl TestMetrics {
+    fn new() -> Self {
+        let recorder = DebuggingRecorder::new();
+        let snapshotter = recorder.snapshotter();
+        let _ = recorder.install();
+
+        TestMetrics(snapshotter)
+    }
+
     #[allow(clippy::mutable_key_type)]
     pub fn take_snapshot(&self) -> Snapshot {
         let mut snapshot = HashMap::new();
@@ -208,7 +206,7 @@ mod tests {
         let constructed_histogram = snapshot.construct_histogram(METRIC_NAME).unwrap();
         let constructed_histogram2 = snapshot.construct_histogram(METRIC_NAME_ALT).unwrap();
 
-        assert!(constructed_histogram.entries() == 1);
-        assert!(constructed_histogram2.entries() == 1);
+        assert_eq!(constructed_histogram.entries(), 1);
+        assert_eq!(constructed_histogram2.entries(), 1);
     }
 }
