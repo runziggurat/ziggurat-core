@@ -3,7 +3,7 @@ use tabled::Tabled;
 use crate::tables::table_float_display;
 
 #[derive(Tabled, Default, Debug, Clone)]
-struct ConnectionStats {
+pub struct ConnectionStats {
     #[tabled(rename = "\n max peers ")]
     pub max_peers: u16,
     #[tabled(rename = "\n peers ")]
