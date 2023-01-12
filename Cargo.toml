@@ -2,4 +2,5 @@
 
 members = [
     "ziggurat-core-metrics",
+    "ziggurat-core-utils",
 ]
