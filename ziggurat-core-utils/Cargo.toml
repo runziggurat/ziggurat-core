@@ -6,6 +6,6 @@ edition = "2021"
 homepage = "https://github.com/runziggurat/ziggurat-core"
 repository = "https://github.com/runziggurat/ziggurat-core"
 
-description = "Utils package for ziggurat based projects"
+description = "A utils package for ziggurat-based projects"
 
 [dependencies]
