@@ -14,6 +14,7 @@ ziggurat-core is intended to be used within the other ziggurat projects, providi
 
 Currently, the following sub-libraries are available:
 ```
+ziggurat-core-geoip - GeoIP functionality
 ziggurat-core-metrics - provides metrics functionality
 ziggurat-core-utils - provides general purpose utilities
 ```
@@ -31,6 +32,7 @@ You can use git tags or branches to specify exact verion of each library you wis
 ### Versioning
 
 ziggurat-core use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/runziggurat/ziggurat-core). 
+Each sub-package is versioned individually.
 
 ### Contributing
 
