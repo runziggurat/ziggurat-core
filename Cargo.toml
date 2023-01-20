@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "ziggurat-core-crawler",
     "ziggurat-core-metrics",
     "ziggurat-core-utils",
 ]

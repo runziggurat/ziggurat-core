@@ -1,11 +1,11 @@
 [package]
-name = "ziggurat-core-utils"
+name = "ziggurat-core-crawler"
 version = "0.1.0"
 edition = "2021"
 
 homepage = "https://github.com/runziggurat/ziggurat-core"
 repository = "https://github.com/runziggurat/ziggurat-core"
 
-description = "A utils package for ziggurat-based projects"
+description = "A crawler package for ziggurat-based projects"
 
 [dependencies]
