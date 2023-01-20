@@ -89,14 +89,8 @@ impl GeoIPService {
                             None => None,
                         },
                         city: record.city,
-                        latitude: match record.latitude {
-                            Some(lat) => Some(lat as f64),
-                            None => None,
-                        },
-                        longitude: match record.longitude {
-                            Some(long) => Some(long as f64),
-                            None => None,
-                        },
+                        latitude: record.latitude.map(|lat| lat as f64),
+                        longitude: record.longitude.map(|long| long as f64),
                         timezone: record.time_zone,
                         isp: record.isp,
                     })
