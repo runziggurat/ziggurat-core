@@ -26,11 +26,11 @@ pub struct IPGeoInfo {
     pub country: Option<String>,
     /// City name
     pub city: Option<String>,
-    /// Latitude of the IP or 0.0 if not available
+    /// IP address latitude
     pub latitude: Option<f64>,
-    /// Longitude of the IP or 0.0 if not available
+    /// IP address longitude
     pub longitude: Option<f64>,
-    /// Timezone of the IP or empty string if not available
+    /// Timezone of the IP
     pub timezone: Option<String>,
     /// ISP name (unavailable for some providers)
     pub isp: Option<String>,
