@@ -9,13 +9,6 @@ pub trait GeoIPService {
     async fn lookup(&self, ip: IpAddr) -> Result<GeoIPInfo, String>;
 }
 
-/// Geographical location of an IP address.
-#[derive(Copy, Clone, PartialEq)]
-pub struct Location {
-    pub latitude: f64,
-    pub longitude: f64,
-}
-
 /// IP information
 #[derive(Clone)]
 pub struct GeoIPInfo {
