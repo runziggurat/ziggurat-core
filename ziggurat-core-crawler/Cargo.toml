@@ -9,3 +9,5 @@ repository = "https://github.com/runziggurat/ziggurat-core"
 description = "A crawler package for ziggurat-based projects"
 
 [dependencies]
+serde = {version = "1", features = ["derive"]}
+spectre = { git = "https://github.com/niklaslong/spectre", rev = "61bdbf5" }
