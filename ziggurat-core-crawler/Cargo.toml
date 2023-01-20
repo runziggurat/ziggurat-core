@@ -1,0 +1,11 @@
+[package]
+name = "ziggurat-core-crawler"
+version = "0.1.0"
+edition = "2021"
+
+homepage = "https://github.com/runziggurat/ziggurat-core"
+repository = "https://github.com/runziggurat/ziggurat-core"
+
+description = "Crawler package for ziggurat based projects"
+
+[dependencies]
