@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "ziggurat-core-geoip",
     "ziggurat-core-metrics",
     "ziggurat-core-utils",
 ]
