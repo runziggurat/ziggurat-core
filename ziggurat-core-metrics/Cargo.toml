@@ -6,7 +6,7 @@ edition = "2021"
 homepage = "https://github.com/runziggurat/ziggurat-core"
 repository = "https://github.com/runziggurat/ziggurat-core"
 
-description = "Metrics package for ziggurat based projects"
+description = "A metrics package for ziggurat-based projects"
 
 [dependencies]
 histogram = "0.6.9"
