@@ -2,9 +2,10 @@ use std::net::IpAddr;
 
 use async_trait::async_trait;
 
-///
+/// Every provider need to implement this trait.
 #[async_trait]
 pub trait GeoIPService {
+    /// Lookup the IP address and return the GeoIPInfo.
     async fn lookup(&self, ip: IpAddr) -> Result<GeoIPInfo, String>;
 }
 
