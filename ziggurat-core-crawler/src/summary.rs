@@ -44,7 +44,7 @@ impl fmt::Display for NetworkSummary {
             vec.sort_by_key(|(_, count)| cmp::Reverse(*count));
 
             for (item, count) in &vec {
-                writeln!(f, "{}: {}", item, count)?;
+                writeln!(f, "{item}: {count}")?;
             }
 
             Ok(())

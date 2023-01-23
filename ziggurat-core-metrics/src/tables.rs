@@ -5,7 +5,7 @@ use tabled::{object::Segment, Alignment, Modify, Style, Table};
 
 /// Formats `f64` with 2 decimal points.
 pub fn table_float_display(x: &f64) -> String {
-    format!("{0:.2}", x)
+    format!("{x:.2}")
 }
 
 /// Returns the duration converted to milliseconds.
