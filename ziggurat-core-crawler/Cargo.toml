@@ -1,6 +1,6 @@
 [package]
 name = "ziggurat-core-crawler"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 
 homepage = "https://github.com/runziggurat/ziggurat-core"
@@ -9,5 +9,5 @@ repository = "https://github.com/runziggurat/ziggurat-core"
 description = "A crawler package for ziggurat-based projects"
 
 [dependencies]
-serde = {version = "1", features = ["derive"]}
-spectre = { git = "https://github.com/niklaslong/spectre", rev = "61bdbf5" }
+serde = { version = "1", features = ["derive"] }
+spectre = "0.5.1"

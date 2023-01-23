@@ -1,10 +1,10 @@
 use std::{cmp, collections::HashMap, fmt, fs, path::Path, time::Duration};
 
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use spectre::graph::AGraph;
 
 /// Contains stats about crawled network.
-#[derive(Default, Clone, Serialize)]
+#[derive(Default, Clone, Deserialize, Serialize)]
 pub struct NetworkSummary {
     /// Total number of nodes discovered.
     pub num_known_nodes: usize,
@@ -44,7 +44,7 @@ impl fmt::Display for NetworkSummary {
             vec.sort_by_key(|(_, count)| cmp::Reverse(*count));
 
             for (item, count) in &vec {
-                writeln!(f, "{}: {}", item, count)?;
+                writeln!(f, "{item}: {count}")?;
             }
 
             Ok(())

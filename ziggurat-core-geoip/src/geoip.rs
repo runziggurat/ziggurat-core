@@ -1,6 +1,7 @@
 use std::net::IpAddr;
 
 use async_trait::async_trait;
+use serde::{Deserialize, Serialize};
 
 /// Every provider need to implement this trait.
 #[async_trait]
@@ -10,7 +11,7 @@ pub trait GeoIPService {
 }
 
 /// IP information
-#[derive(Clone)]
+#[derive(Clone, Deserialize, Serialize)]
 pub struct GeoIPInfo {
     /// IP address
     pub ip: IpAddr,
