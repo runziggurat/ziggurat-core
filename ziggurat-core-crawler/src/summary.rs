@@ -4,7 +4,7 @@ use serde::Serialize;
 use spectre::graph::AGraph;
 
 /// Contains stats about crawled network.
-#[derive(Default, Clone, Serialize)]
+#[derive(Default, Clone, Deserialize, Serialize)]
 pub struct NetworkSummary {
     /// Total number of nodes discovered.
     pub num_known_nodes: usize,
