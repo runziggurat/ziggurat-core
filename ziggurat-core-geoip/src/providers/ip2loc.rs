@@ -21,8 +21,12 @@ impl Ip2LocationService {
 #[async_trait]
 impl GeoIPService for Ip2LocationService {
     async fn lookup(&self, ip: IpAddr) -> Result<GeoIPInfo, String> {
-        let mut db = DB::from_file(self.database_file).expect("failed to open database");
-        let record = db.ip_lookup(ip);
+        let db = DB::from_file(self.database_file);
+        if db.is_err() {
+            return Err("failed to open the database".to_string());
+        }
+
+        let record = db.unwrap().ip_lookup(ip);
         let record = if let Ok(Record::LocationDb(rec)) = record {
             rec
         } else {
