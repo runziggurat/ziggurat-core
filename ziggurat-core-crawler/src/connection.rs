@@ -1,7 +1,7 @@
 use std::{
     cmp::Ordering,
     hash::{Hash, Hasher},
-    net::SocketAddr,
+    net::IpAddr,
     time::Instant,
 };
 
@@ -9,9 +9,9 @@ use std::{
 #[derive(Debug, Eq, Copy, Clone)]
 pub struct KnownConnection {
     /// One of the two sides of a connection.
-    pub a: SocketAddr,
+    pub a: IpAddr,
     /// The other side of a connection.
-    pub b: SocketAddr,
+    pub b: IpAddr,
     /// The timestamp of the last time the connection was seen.
     pub last_seen: Instant,
 }
@@ -35,7 +35,7 @@ impl Hash for KnownConnection {
 }
 
 impl KnownConnection {
-    pub fn new(a: SocketAddr, b: SocketAddr) -> Self {
+    pub fn new(a: IpAddr, b: IpAddr) -> Self {
         Self {
             a,
             b,
@@ -50,5 +50,24 @@ impl PartialEq for KnownConnection {
         let (c, d) = (other.a, other.b);
 
         a == d && b == c || a == c && b == d
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use std::{collections::HashSet, net::IpAddr, str::FromStr};
+
+    use crate::connection::KnownConnection;
+
+    #[test]
+    fn should_deal_with_reverse_connection() {
+        let a = IpAddr::from_str("1.2.3.4").unwrap();
+        let b = IpAddr::from_str("1.2.3.5").unwrap();
+        let connection_present = KnownConnection::new(a, b);
+        let connection_reverse = KnownConnection::new(b, a);
+        assert_eq!(connection_present, connection_reverse);
+        let mut set = HashSet::new();
+        set.insert(connection_present);
+        assert!(set.contains(&connection_reverse));
     }
 }
