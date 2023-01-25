@@ -10,11 +10,18 @@ pub trait GeoIPService {
     async fn lookup(&self, ip: IpAddr) -> Result<GeoIPInfo, String>;
 }
 
-/// IP information
+/// GeoIP information.
 #[derive(Clone, Deserialize, Serialize)]
 pub struct GeoIPInfo {
     /// IP address
     pub ip: IpAddr,
+    /// GeoInfo struct
+    pub geo_info: GeoInfo,
+}
+
+/// Geo information
+#[derive(Clone, Deserialize, Serialize)]
+pub struct GeoInfo {
     /// Country name (long name)
     pub country: Option<String>,
     /// City name
