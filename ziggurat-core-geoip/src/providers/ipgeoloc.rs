@@ -3,7 +3,7 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use ipgeolocate::{Locator, Service};
 
-use crate::geoip::{GeoIPInfo, GeoIPService};
+use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo};
 
 /// List of supported ipgeolocate providers.
 #[derive(Copy, Clone, PartialEq)]
@@ -39,12 +39,14 @@ impl GeoIPService for IpGeolocateService {
         match Locator::get(ip.to_string().as_str(), service).await {
             Ok(loc_ip) => Ok(GeoIPInfo {
                 ip,
-                country: Some(loc_ip.country),
-                city: Some(loc_ip.city),
-                latitude: loc_ip.latitude.parse::<f64>().ok(),
-                longitude: loc_ip.longitude.parse::<f64>().ok(),
-                timezone: Some(loc_ip.timezone),
-                isp: Some("".to_owned()),
+                geo_info: GeoInfo {
+                    country: Some(loc_ip.country),
+                    city: Some(loc_ip.city),
+                    latitude: loc_ip.latitude.parse::<f64>().ok(),
+                    longitude: loc_ip.longitude.parse::<f64>().ok(),
+                    timezone: Some(loc_ip.timezone),
+                    isp: Some("".to_owned()),
+                },
             }),
             Err(error) => Err(error.to_string()),
         }
@@ -59,21 +61,21 @@ mod tests {
     async fn test_ip_api_com() {
         let geoip = IpGeolocateService::new(BackendProvider::IpApiCom, "");
         let ipgeo = geoip.lookup("8.8.8.8".parse().unwrap()).await.unwrap();
-        assert_eq!(ipgeo.country.unwrap(), "United States");
-        assert_eq!(ipgeo.city.unwrap(), "Ashburn");
-        assert_eq!(ipgeo.latitude.unwrap(), 39.03);
-        assert_eq!(ipgeo.longitude.unwrap(), -77.5);
-        assert_eq!(ipgeo.timezone.unwrap(), "America/New_York");
+        assert_eq!(ipgeo.geo_info.country.unwrap(), "United States");
+        assert_eq!(ipgeo.geo_info.city.unwrap(), "Ashburn");
+        assert_eq!(ipgeo.geo_info.latitude.unwrap(), 39.03);
+        assert_eq!(ipgeo.geo_info.longitude.unwrap(), -77.5);
+        assert_eq!(ipgeo.geo_info.timezone.unwrap(), "America/New_York");
     }
 
     #[tokio::test]
     async fn test_ip_api_co() {
         let geoip = IpGeolocateService::new(BackendProvider::IpApiCo, "");
         let ipgeo = geoip.lookup("8.8.8.8".parse().unwrap()).await.unwrap();
-        assert_eq!(ipgeo.country.unwrap(), "United States");
-        assert_eq!(ipgeo.city.unwrap(), "Mountain View");
-        assert_eq!(ipgeo.latitude.unwrap(), 37.42301);
-        assert_eq!(ipgeo.longitude.unwrap(), -122.083352);
-        assert_eq!(ipgeo.timezone.unwrap(), "America/Los_Angeles");
+        assert_eq!(ipgeo.geo_info.country.unwrap(), "United States");
+        assert_eq!(ipgeo.geo_info.city.unwrap(), "Mountain View");
+        assert_eq!(ipgeo.geo_info.latitude.unwrap(), 37.42301);
+        assert_eq!(ipgeo.geo_info.longitude.unwrap(), -122.083352);
+        assert_eq!(ipgeo.geo_info.timezone.unwrap(), "America/Los_Angeles");
     }
 }

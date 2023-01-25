@@ -3,7 +3,7 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use ip2location::{Record, DB};
 
-use crate::geoip::{GeoIPInfo, GeoIPService};
+use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo};
 
 /// Ip2Location provider service configuration.
 #[derive(Copy, Clone)]
@@ -33,12 +33,14 @@ impl GeoIPService for Ip2LocationService {
 
         Ok(GeoIPInfo {
             ip,
-            country: record.country.map(|c| c.long_name),
-            city: record.city,
-            latitude: record.latitude.map(|lat| lat as f64),
-            longitude: record.longitude.map(|long| long as f64),
-            timezone: record.time_zone,
-            isp: record.isp,
+            geo_info: GeoInfo {
+                country: record.country.map(|c| c.long_name),
+                city: record.city,
+                latitude: record.latitude.map(|lat| lat as f64),
+                longitude: record.longitude.map(|long| long as f64),
+                timezone: record.time_zone,
+                isp: record.isp,
+            },
         })
     }
 }
