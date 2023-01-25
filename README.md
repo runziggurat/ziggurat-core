@@ -1,3 +1,5 @@
+[![dependency status](https://deps.rs/repo/github/runziggurat/ziggurat-core/status.svg)](https://deps.rs/repo/github/runziggurat/ziggurat-core)
+
 # ziggurat-core package
 
 *Note:* This project is a work in progress.
