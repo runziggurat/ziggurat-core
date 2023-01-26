@@ -13,17 +13,20 @@ pub enum BackendProvider {
 }
 
 /// ipgeolocate provider service configuration.
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 pub struct IpGeolocateService {
     /// Geoip provider.
     pub provider: BackendProvider,
     /// API key.
-    pub api_key: &'static str,
+    pub api_key: String,
 }
 
 impl IpGeolocateService {
-    pub fn new(provider: BackendProvider, api_key: &'static str) -> Self {
-        Self { provider, api_key }
+    pub fn new(provider: BackendProvider, api_key: &str) -> Self {
+        Self {
+            provider,
+            api_key: api_key.to_owned(),
+        }
     }
 }
 
