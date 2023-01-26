@@ -6,15 +6,17 @@ use ip2location::{Record, DB};
 use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo};
 
 /// Ip2Location provider service configuration.
-#[derive(Copy, Clone)]
+#[derive(Clone)]
 pub struct Ip2LocationService {
     /// Database file path.
-    pub database_file: &'static str,
+    pub database_file: String,
 }
 
 impl Ip2LocationService {
-    pub fn new(database_file: &'static str) -> Self {
-        Self { database_file }
+    pub fn new(database_file: &str) -> Self {
+        Self {
+            database_file: database_file.to_owned(),
+        }
     }
 }
 
@@ -22,7 +24,7 @@ impl Ip2LocationService {
 impl GeoIPService for Ip2LocationService {
     async fn lookup(&self, ip: IpAddr) -> Result<GeoIPInfo, String> {
         let mut db =
-            DB::from_file(self.database_file).map_err(|_| "database file can't be loaded")?;
+            DB::from_file(&self.database_file).map_err(|_| "database file can't be loaded")?;
 
         let record = db.ip_lookup(ip);
         let record = if let Ok(Record::LocationDb(rec)) = record {
