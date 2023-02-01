@@ -3,7 +3,7 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use ipgeolocate::{Locator, Service};
 
-use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo};
+use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo, Location};
 
 /// List of supported ipgeolocate providers.
 #[derive(Copy, Clone, PartialEq)]
@@ -45,8 +45,10 @@ impl GeoIPService for IpGeolocateService {
                 geo_info: GeoInfo {
                     country: Some(loc_ip.country),
                     city: Some(loc_ip.city),
-                    latitude: loc_ip.latitude.parse::<f64>().ok(),
-                    longitude: loc_ip.longitude.parse::<f64>().ok(),
+                    location: Some(Location {
+                        latitude: loc_ip.latitude.parse::<f64>().unwrap_or_default(),
+                        longitude: loc_ip.longitude.parse::<f64>().unwrap_or_default(),
+                    }),
                     timezone: Some(loc_ip.timezone),
                     isp: Some("".to_owned()),
                 },
@@ -66,8 +68,8 @@ mod tests {
         let ipgeo = geoip.lookup("8.8.8.8".parse().unwrap()).await.unwrap();
         assert_eq!(ipgeo.geo_info.country.unwrap(), "United States");
         assert_eq!(ipgeo.geo_info.city.unwrap(), "Ashburn");
-        assert_eq!(ipgeo.geo_info.latitude.unwrap(), 39.03);
-        assert_eq!(ipgeo.geo_info.longitude.unwrap(), -77.5);
+        assert_eq!(ipgeo.geo_info.location.unwrap().latitude, 39.03);
+        assert_eq!(ipgeo.geo_info.location.unwrap().longitude, -77.5);
         assert_eq!(ipgeo.geo_info.timezone.unwrap(), "America/New_York");
     }
 
@@ -77,8 +79,8 @@ mod tests {
         let ipgeo = geoip.lookup("8.8.8.8".parse().unwrap()).await.unwrap();
         assert_eq!(ipgeo.geo_info.country.unwrap(), "United States");
         assert_eq!(ipgeo.geo_info.city.unwrap(), "Mountain View");
-        assert_eq!(ipgeo.geo_info.latitude.unwrap(), 37.42301);
-        assert_eq!(ipgeo.geo_info.longitude.unwrap(), -122.083352);
+        assert_eq!(ipgeo.geo_info.location.unwrap().latitude, 37.42301);
+        assert_eq!(ipgeo.geo_info.location.unwrap().longitude, -122.083352);
         assert_eq!(ipgeo.geo_info.timezone.unwrap(), "America/Los_Angeles");
     }
 }
