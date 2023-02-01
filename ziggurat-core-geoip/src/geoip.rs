@@ -43,10 +43,12 @@ pub struct GeoInfo {
     pub isp: Option<String>,
 }
 
-
 impl Location {
     /// Create a new Location struct.
     pub fn new(latitude: f64, longitude: f64) -> Self {
-        Self { latitude, longitude }
+        Self {
+            latitude,
+            longitude,
+        }
     }
 }
