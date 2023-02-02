@@ -19,6 +19,15 @@ pub struct GeoIPInfo {
     pub geo_info: GeoInfo,
 }
 
+/// Geographical location
+#[derive(Copy, Clone, Deserialize, Serialize)]
+pub struct Location {
+    /// Latitude value
+    pub latitude: f64,
+    /// Longitude value
+    pub longitude: f64,
+}
+
 /// Geo information
 #[derive(Clone, Deserialize, Serialize)]
 pub struct GeoInfo {
@@ -26,12 +35,20 @@ pub struct GeoInfo {
     pub country: Option<String>,
     /// City name
     pub city: Option<String>,
-    /// Latitude
-    pub latitude: Option<f64>,
-    /// Longitude
-    pub longitude: Option<f64>,
+    /// Location of the IP address
+    pub location: Option<Location>,
     /// Timezone of the IP
     pub timezone: Option<String>,
     /// ISP name (unavailable for some providers)
     pub isp: Option<String>,
+}
+
+impl Location {
+    /// Create a new Location struct.
+    pub fn new(latitude: f64, longitude: f64) -> Self {
+        Self {
+            latitude,
+            longitude,
+        }
+    }
 }
