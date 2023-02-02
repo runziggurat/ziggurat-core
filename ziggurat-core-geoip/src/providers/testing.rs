@@ -3,7 +3,10 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
 
-use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo, Location};
+use crate::{
+    geoip::{GeoIPInfo, GeoIPService, GeoInfo},
+    location::Location,
+};
 
 /// List of supported testing providers.
 #[derive(Copy, Clone, PartialEq)]

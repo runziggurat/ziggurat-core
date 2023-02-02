@@ -1,3 +1,3 @@
 pub mod geoip;
-pub mod geoutils;
+pub mod location;
 pub mod providers;

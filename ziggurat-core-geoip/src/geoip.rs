@@ -3,6 +3,8 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 
+use crate::location::Location;
+
 /// Every provider need to implement this trait.
 #[async_trait]
 pub trait GeoIPService {
@@ -19,15 +21,6 @@ pub struct GeoIPInfo {
     pub geo_info: GeoInfo,
 }
 
-/// Geographical location
-#[derive(Copy, Clone, Deserialize, Serialize)]
-pub struct Location {
-    /// Latitude value
-    pub latitude: f64,
-    /// Longitude value
-    pub longitude: f64,
-}
-
 /// Geo information
 #[derive(Clone, Deserialize, Serialize)]
 pub struct GeoInfo {
@@ -41,14 +34,4 @@ pub struct GeoInfo {
     pub timezone: Option<String>,
     /// ISP name (unavailable for some providers)
     pub isp: Option<String>,
-}
-
-impl Location {
-    /// Create a new Location struct.
-    pub fn new(latitude: f64, longitude: f64) -> Self {
-        Self {
-            latitude,
-            longitude,
-        }
-    }
 }

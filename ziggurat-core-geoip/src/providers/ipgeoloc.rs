@@ -3,7 +3,10 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use ipgeolocate::{Locator, Service};
 
-use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo, Location};
+use crate::{
+    geoip::{GeoIPInfo, GeoIPService, GeoInfo},
+    location::Location,
+};
 
 /// List of supported ipgeolocate providers.
 #[derive(Copy, Clone, PartialEq)]
