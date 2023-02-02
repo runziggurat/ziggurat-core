@@ -3,7 +3,10 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use ip2location::{Record, DB};
 
-use crate::geoip::{GeoIPInfo, GeoIPService, GeoInfo, Location};
+use crate::{
+    geoip::{GeoIPInfo, GeoIPService, GeoInfo},
+    location::Location,
+};
 
 /// Ip2Location provider service configuration.
 #[derive(Clone)]
