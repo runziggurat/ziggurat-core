@@ -12,6 +12,13 @@ pub struct Location {
 impl Location {
     /// Create a new Location struct.
     pub fn new(latitude: f64, longitude: f64) -> Self {
+        if (latitude <= -90.0) || (latitude >= 90.0) {
+            panic!("Latitude must be between -90 and 90 degrees");
+        }
+        if (longitude <= -180.0) || (longitude >= 180.0) {
+            panic!("Longitude must be between -180 and 180 degrees");
+        }
+
         Self {
             latitude,
             longitude,
