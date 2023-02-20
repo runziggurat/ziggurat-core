@@ -3,7 +3,7 @@ use std::net::IpAddr;
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
 
-use crate::location::Location;
+use crate::coordinates::Coordinates;
 
 /// Every provider need to implement this trait.
 #[async_trait]
@@ -29,7 +29,7 @@ pub struct GeoInfo {
     /// City name
     pub city: Option<String>,
     /// Location of the IP address
-    pub location: Option<Location>,
+    pub location: Option<Coordinates>,
     /// Timezone of the IP
     pub timezone: Option<String>,
     /// ISP name (unavailable for some providers)
