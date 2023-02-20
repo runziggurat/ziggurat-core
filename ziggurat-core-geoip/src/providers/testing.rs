@@ -4,8 +4,8 @@ use async_trait::async_trait;
 use rand::{distributions::Alphanumeric, thread_rng, Rng};
 
 use crate::{
+    coordinates::Coordinates,
     geoip::{GeoIPInfo, GeoIPService, GeoInfo},
-    location::Location,
 };
 
 /// List of supported testing providers.
@@ -39,7 +39,7 @@ impl GeoIPService for TestingService {
                 geo_info: GeoInfo {
                     country: Some("".to_owned()),
                     city: Some("".to_owned()),
-                    location: Some(Location {
+                    location: Some(Coordinates {
                         latitude: 0.0,
                         longitude: 0.0,
                     }),
@@ -65,7 +65,7 @@ impl GeoIPService for TestingService {
                             .map(char::from)
                             .collect(),
                     ),
-                    location: Some(Location {
+                    location: Some(Coordinates {
                         latitude: thread_rng().gen_range(-90.0..=90.0),
                         longitude: thread_rng().gen_range(-180.0..=180.0),
                     }),

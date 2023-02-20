@@ -4,8 +4,8 @@ use async_trait::async_trait;
 use ip2location::{Record, DB};
 
 use crate::{
+    coordinates::Coordinates,
     geoip::{GeoIPInfo, GeoIPService, GeoInfo},
-    location::Location,
 };
 
 /// Ip2Location provider service configuration.
@@ -42,7 +42,7 @@ impl GeoIPService for Ip2LocationService {
                 country: record.country.map(|c| c.long_name),
                 city: record.city,
                 location: match (record.latitude, record.longitude) {
-                    (Some(lat), Some(long)) => Some(Location {
+                    (Some(lat), Some(long)) => Some(Coordinates {
                         latitude: lat as f64,
                         longitude: long as f64,
                     }),

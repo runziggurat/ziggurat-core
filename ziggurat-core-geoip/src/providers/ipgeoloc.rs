@@ -4,8 +4,8 @@ use async_trait::async_trait;
 use ipgeolocate::{Locator, Service};
 
 use crate::{
+    coordinates::Coordinates,
     geoip::{GeoIPInfo, GeoIPService, GeoInfo},
-    location::Location,
 };
 
 /// List of supported ipgeolocate providers.
@@ -48,7 +48,7 @@ impl GeoIPService for IpGeolocateService {
                 geo_info: GeoInfo {
                     country: Some(loc_ip.country),
                     city: Some(loc_ip.city),
-                    location: Some(Location {
+                    location: Some(Coordinates {
                         latitude: loc_ip.latitude.parse::<f64>().unwrap_or_default(),
                         longitude: loc_ip.longitude.parse::<f64>().unwrap_or_default(),
                     }),
