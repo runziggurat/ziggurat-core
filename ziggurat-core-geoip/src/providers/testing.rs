@@ -39,7 +39,7 @@ impl GeoIPService for TestingService {
                 geo_info: GeoInfo {
                     country: Some("".to_owned()),
                     city: Some("".to_owned()),
-                    location: Some(Coordinates {
+                    coordinates: Some(Coordinates {
                         latitude: 0.0,
                         longitude: 0.0,
                     }),
@@ -65,7 +65,7 @@ impl GeoIPService for TestingService {
                             .map(char::from)
                             .collect(),
                     ),
-                    location: Some(Coordinates {
+                    coordinates: Some(Coordinates {
                         latitude: thread_rng().gen_range(-90.0..=90.0),
                         longitude: thread_rng().gen_range(-180.0..=180.0),
                     }),
@@ -99,8 +99,8 @@ mod tests {
         let ipgeo = geoip.lookup("8.8.8.8".parse().unwrap()).await.unwrap();
         assert_eq!(ipgeo.geo_info.country.unwrap(), "");
         assert_eq!(ipgeo.geo_info.city.unwrap(), "");
-        assert_eq!(ipgeo.geo_info.location.unwrap().latitude, 0.0);
-        assert_eq!(ipgeo.geo_info.location.unwrap().longitude, 0.0);
+        assert_eq!(ipgeo.geo_info.coordinates.unwrap().latitude, 0.0);
+        assert_eq!(ipgeo.geo_info.coordinates.unwrap().longitude, 0.0);
         assert_eq!(ipgeo.geo_info.timezone.unwrap(), "");
     }
 }
