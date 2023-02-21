@@ -29,7 +29,7 @@ pub struct GeoInfo {
     /// City name
     pub city: Option<String>,
     /// Location of the IP address
-    pub location: Option<Coordinates>,
+    pub coordinates: Option<Coordinates>,
     /// Timezone of the IP
     pub timezone: Option<String>,
     /// ISP name (unavailable for some providers)

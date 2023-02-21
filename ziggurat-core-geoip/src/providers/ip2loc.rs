@@ -41,7 +41,7 @@ impl GeoIPService for Ip2LocationService {
             geo_info: GeoInfo {
                 country: record.country.map(|c| c.long_name),
                 city: record.city,
-                location: match (record.latitude, record.longitude) {
+                coordinates: match (record.latitude, record.longitude) {
                     (Some(lat), Some(long)) => Some(Coordinates {
                         latitude: lat as f64,
                         longitude: long as f64,
