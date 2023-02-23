@@ -1,7 +1,6 @@
 use std::{cmp, collections::HashMap, fmt, fs, path::Path, time::Duration};
 
 use serde::{Deserialize, Serialize};
-use spectre::graph::AGraph;
 
 /// Contains stats about crawled network.
 #[derive(Default, Clone, Deserialize, Serialize)]
@@ -23,7 +22,7 @@ pub struct NetworkSummary {
     /// Addresses of good nodes.
     pub node_ips: Vec<String>,
     /// Unidirected connections graph.
-    pub agraph: AGraph,
+    pub indices: Vec<Vec<usize>>,
 }
 
 impl NetworkSummary {

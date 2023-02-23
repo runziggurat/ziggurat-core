@@ -10,4 +10,4 @@ description = "A crawler package for ziggurat-based projects"
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
-spectre = "0.5.1"
+
