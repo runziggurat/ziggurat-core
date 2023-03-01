@@ -2,6 +2,8 @@ use std::{cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, time:
 
 use serde::{Deserialize, Serialize};
 
+// This struct contains a list of connection indices for each node
+// It is equivalent to an adjacency or degree matrix, expressed in a compact form
 type NodeIndices = Vec<Vec<usize>>;
 
 /// Contains stats about crawled network.
