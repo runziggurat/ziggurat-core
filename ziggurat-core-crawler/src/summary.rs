@@ -24,7 +24,7 @@ pub struct NetworkSummary {
     /// Addresses of good nodes.
     pub node_addrs: Vec<SocketAddr>,
     /// Unidirected connections graph.
-    pub indices: NodeIndices,
+    pub node_indices: NodeIndices,
 }
 
 impl NetworkSummary {
