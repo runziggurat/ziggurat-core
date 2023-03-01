@@ -1,6 +1,10 @@
-use std::{cmp, collections::HashMap, fmt, fs, path::Path, time::Duration};
+use std::{cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, time::Duration};
 
 use serde::{Deserialize, Serialize};
+
+// This struct contains a list of connection indices for each node
+// It is equivalent to an adjacency or degree matrix, expressed in a compact form
+type NodesIndices = Vec<Vec<usize>>;
 
 /// Contains stats about crawled network.
 #[derive(Default, Clone, Deserialize, Serialize)]
@@ -20,9 +24,9 @@ pub struct NetworkSummary {
     /// Crawler's runtime.
     pub crawler_runtime: Duration,
     /// Addresses of good nodes.
-    pub node_ips: Vec<String>,
+    pub node_addrs: Vec<SocketAddr>,
     /// Unidirected connections graph.
-    pub indices: Vec<Vec<usize>>,
+    pub nodes_indices: NodesIndices,
 }
 
 impl NetworkSummary {
