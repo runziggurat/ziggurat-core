@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 // This struct contains a list of connection indices for each node
 // It is equivalent to an adjacency or degree matrix, expressed in a compact form
-type NodeIndices = Vec<Vec<usize>>;
+type GraphIndices = Vec<Vec<usize>>;
 
 /// Contains stats about crawled network.
 #[derive(Default, Clone, Deserialize, Serialize)]
@@ -26,7 +26,7 @@ pub struct NetworkSummary {
     /// Addresses of good nodes.
     pub node_addrs: Vec<SocketAddr>,
     /// Unidirected connections graph.
-    pub node_indices: NodeIndices,
+    pub graph_indices: GraphIndices,
 }
 
 impl NetworkSummary {
