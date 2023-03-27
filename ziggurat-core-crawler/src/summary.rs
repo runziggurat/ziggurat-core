@@ -35,7 +35,7 @@ pub struct NetworkSummary {
     /// Addresses of good nodes.
     pub node_addrs: Vec<SocketAddr>,
     /// Network types of good nodes. Indexes correspond to `node_addrs` and `node_indices`.
-    pub node_networks: Vec<NetworkType>,
+    pub node_network_types: Vec<NetworkType>,
     /// Unidirected connections graph.
     pub nodes_indices: NodesIndices,
 }
