@@ -6,6 +6,15 @@ use serde::{Deserialize, Serialize};
 // It is equivalent to an adjacency or degree matrix, expressed in a compact form
 pub type NodesIndices = Vec<Vec<usize>>;
 
+/// Enumaration of known networks that node can belong to.
+#[derive(Default, Clone, Deserialize, Serialize)]
+pub enum NetworkType {
+    #[default]
+    Unknown,
+    Zcash,
+    Ripple,
+}
+
 /// Contains stats about crawled network.
 #[derive(Default, Clone, Deserialize, Serialize)]
 pub struct NetworkSummary {
@@ -25,6 +34,8 @@ pub struct NetworkSummary {
     pub crawler_runtime: Duration,
     /// Addresses of good nodes.
     pub node_addrs: Vec<SocketAddr>,
+    /// Network types of good nodes. Indexes correspond to `node_addrs` and `node_indices`.
+    pub node_networks: Vec<NetworkType>,
     /// Unidirected connections graph.
     pub nodes_indices: NodesIndices,
 }
