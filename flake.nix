@@ -4,42 +4,56 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { nixpkgs, flake-utils, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
+  outputs = { self, nixpkgs, flake-utils, rust-overlay, ... }:
+    flake-utils.lib.eachDefaultSystem
+      (system:
+        let
+          overlays = [ (import rust-overlay) ];
+          pkgs = import nixpkgs {
+            inherit system overlays;
+          };
 
-        localCiScript = pkgs.writeScriptBin "ci-local" ''
-          echo "Running cargo check..."
-          cargo check --all-targets
+          # Latest stable rust without rustfmt.
+          stable-rust = pkgs.rust-bin.stable.latest.minimal.override {
+            extensions = [ "clippy" "rust-docs" ];
+          };
+          # Latest nightly rust with rustfmt.
+          nightly-rust = pkgs.rust-bin.selectLatestNightlyWith
+            (toolchain: toolchain.minimal.override {
+              extensions = [ "rustfmt" ];
+            });
 
-          echo "Running cargo fmt check..."
-          cargo +nightly fmt --all -- --check
-
-          echo "Running cargo clippy..."
-          cargo clippy --all-targets -- -D warnings
-
-          echo "Running cargo-sort check..."
-          cargo-sort -cw
-        '';
-
-        devShell = pkgs.mkShell {
-          buildInputs = [ localCiScript ] ++ (with pkgs; [
-            rustup
+          buildInputs = with pkgs; [
+            stable-rust
+            nightly-rust
             cargo-sort
             openssl
             pkg-config
-          ]);
+          ];
+        in
+        {
+          inherit buildInputs;
 
-          shellHook = ''
-            rustup default stable
-            rustup toolchain install nightly --allow-downgrade --profile minimal --component rustfmt
-          '';
-        };
-      in
-      {
-        devShells.default = devShell;
-      });
+          lib = import ./lib.nix { inherit pkgs; };
+
+          devShells.default = pkgs.mkShell {
+            buildInputs = self.buildInputs.${system}
+            ++ (self.lib.${system}.mkCiScripts self.scripts);
+          };
+        }) // {
+      scripts = {
+        check = "cargo check --all-targets";
+        fmt = "cargo fmt --all -- --check";
+        clippy = "cargo clippy --all-targets -- -D warnings";
+        sort = "cargo-sort --check --workspace";
+      };
+
+      templates.default = {
+        path = ./nix-template;
+        description = "Nix template for working with Ziggurat";
+      };
+    };
 }
