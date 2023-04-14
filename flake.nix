@@ -50,5 +50,10 @@
         clippy = "cargo clippy --all-targets -- -D warnings";
         sort = "cargo-sort --check --workspace";
       };
+
+      templates.default = {
+        path = ./nix-template;
+        description = "Nix template for working with Ziggurat";
+      };
     };
 }
