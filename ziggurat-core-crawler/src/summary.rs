@@ -1,4 +1,6 @@
-use std::{cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, time::Duration};
+use std::{
+    cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, str::FromStr, time::Duration,
+};
 
 use serde::{Deserialize, Serialize};
 
@@ -90,5 +92,17 @@ impl fmt::Display for NetworkSummary {
         )?;
 
         Ok(())
+    }
+}
+
+impl FromStr for NetworkType {
+    type Err = ();
+    fn from_str(input: &str) -> Result<NetworkType, Self::Err> {
+        match input {
+            "Unknown" => Ok(NetworkType::Unknown),
+            "Zcash" => Ok(NetworkType::Zcash),
+            "Ripple" => Ok(NetworkType::Ripple),
+            _ => Err(()),
+        }
     }
 }
