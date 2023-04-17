@@ -1,5 +1,5 @@
 use std::{
-    cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, str::FromStr, time::Duration,
+    cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, time::Duration,
 };
 
 use serde::{Deserialize, Serialize};
@@ -15,6 +15,17 @@ pub enum NetworkType {
     Unknown,
     Zcash,
     Ripple,
+}
+
+impl From<&str> for NetworkType {
+    fn from(input: &str) -> NetworkType {
+        match input {
+            "Unknown" => NetworkType::Unknown,
+            "Zcash" => NetworkType::Zcash,
+            "Ripple" => NetworkType::Ripple,
+            _ => NetworkType::Unknown,
+        }
+    }
 }
 
 /// Contains stats about crawled network.
@@ -92,17 +103,5 @@ impl fmt::Display for NetworkSummary {
         )?;
 
         Ok(())
-    }
-}
-
-impl FromStr for NetworkType {
-    type Err = ();
-    fn from_str(input: &str) -> Result<NetworkType, Self::Err> {
-        match input {
-            "Unknown" => Ok(NetworkType::Unknown),
-            "Zcash" => Ok(NetworkType::Zcash),
-            "Ripple" => Ok(NetworkType::Ripple),
-            _ => Err(()),
-        }
     }
 }
