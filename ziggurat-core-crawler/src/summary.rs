@@ -1,6 +1,4 @@
-use std::{
-    cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, time::Duration,
-};
+use std::{cmp, collections::HashMap, fmt, fs, net::SocketAddr, path::Path, time::Duration};
 
 use serde::{Deserialize, Serialize};
 
@@ -15,6 +13,7 @@ pub enum NetworkType {
     Unknown,
     Zcash,
     Ripple,
+    Invalid,
 }
 
 impl From<&str> for NetworkType {
@@ -23,7 +22,7 @@ impl From<&str> for NetworkType {
             "Unknown" => NetworkType::Unknown,
             "Zcash" => NetworkType::Zcash,
             "Ripple" => NetworkType::Ripple,
-            _ => NetworkType::Unknown,
+            _ => NetworkType::Invalid,
         }
     }
 }
