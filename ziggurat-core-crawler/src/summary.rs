@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 pub type NodesIndices = Vec<Vec<usize>>;
 
 /// Enumaration of known networks that node can belong to.
-#[derive(Default, PartialEq, Clone, Deserialize, Serialize, Debug)]
+#[derive(Default, PartialEq, Clone, Deserialize, Serialize, Debug, Copy)]
 pub enum NetworkType {
     #[default]
     Unknown,
