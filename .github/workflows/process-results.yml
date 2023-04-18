@@ -7,6 +7,13 @@ on:
       extension:
         type: string
         default: "jsonl"
+      repository:
+        type: string
+        required: true
+    secrets:
+      gcp_credentials:
+        description: service account used to upload results to GCS
+        required: true
 
 jobs:
   process-results:
@@ -14,19 +21,26 @@ jobs:
     env:
       NAME: ${{ inputs.name }}
       EXTENSION: ${{ inputs.extension }}
+      REPOSITORY: ${{ inputs.repository }}
     steps:
       - uses: actions/checkout@v3
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: '${{ secrets.gcp_credentials }}'
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          version: '>= 363.0.0'
       - uses: actions/download-artifact@v3
         with:
           name: latest-result
           path: ./
-      - name: Replace with the latest result
-        run: |
-          rm -rf results/$NAME/latest.$EXTENSION
-          mv latest.$EXTENSION results/$NAME
-      - name: Process results
+      - name: Upload results to GCS
         run: |
           FILENAME=$(date +%Y-%m-%d)
-          cd results/$NAME
           cp latest.$EXTENSION $FILENAME.$EXTENSION
           gzip $FILENAME.$EXTENSION
+
+          gsutil -m cp -r $FILENAME.$EXTENSION.gz gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+
