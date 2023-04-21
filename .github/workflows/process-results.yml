@@ -42,5 +42,5 @@ jobs:
           cp latest.$EXTENSION $FILENAME.$EXTENSION
           gzip $FILENAME.$EXTENSION
 
-          gsutil -m cp -r $FILENAME.$EXTENSION.gz gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+          gsutil -m cp latest.$EXTENSION $FILENAME.$EXTENSION.gz gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
 
