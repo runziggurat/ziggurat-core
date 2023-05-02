@@ -9,14 +9,14 @@ repository = "https://github.com/runziggurat/ziggurat-core"
 description = "GeoIP localization package for Ziggurat"
 
 [dependencies]
-async-trait = "0.1.63"
+async-trait = "0.1.68"
 geoutils = "0.5.1"
-ip2location = "0.3.5"
+ip2location = "0.4.2"
 ipgeolocate = "0.3.5"
-ipinfo = "1.0.0"
+ipinfo = "2.1.0"
 rand = "0.8.5"
 serde = { version = "1", features = ["derive"] }
 
 [dependencies.tokio]
-version = "1.24"
+version = "1.28"
 features = ["full"]
