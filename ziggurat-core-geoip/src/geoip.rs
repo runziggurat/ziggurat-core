@@ -22,7 +22,7 @@ pub struct GeoIPInfo {
 }
 
 /// Geo information
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct GeoInfo {
     /// Country name (long name)
     pub country: Option<String>,

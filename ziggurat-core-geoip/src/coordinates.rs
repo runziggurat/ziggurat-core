@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 /// Geographical location
-#[derive(Copy, Clone, Deserialize, Serialize)]
+#[derive(Debug, Copy, Clone, Deserialize, Serialize)]
 pub struct Coordinates {
     /// Latitude value
     pub latitude: f64,
