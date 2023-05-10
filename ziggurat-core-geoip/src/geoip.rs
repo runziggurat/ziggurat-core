@@ -13,7 +13,7 @@ pub trait GeoIPService {
 }
 
 /// GeoIP information.
-#[derive(Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct GeoIPInfo {
     /// IP address
     pub ip: IpAddr,
