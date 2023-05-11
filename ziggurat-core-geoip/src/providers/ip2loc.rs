@@ -35,11 +35,13 @@ impl GeoIPService for Ip2LocationService {
     async fn lookup(&self, ip: IpAddr) -> Result<GeoIPInfo, String> {
         let db_file = match ip {
             IpAddr::V4(_) => &self.database_file,
-            IpAddr::V6(_) => self.database_file_ipv6.as_ref().unwrap_or(&self.database_file),
+            IpAddr::V6(_) => self
+                .database_file_ipv6
+                .as_ref()
+                .unwrap_or(&self.database_file),
         };
 
-        let mut db =
-            DB::from_file(db_file).map_err(|_| "database file can't be loaded")?;
+        let mut db = DB::from_file(db_file).map_err(|_| "database file can't be loaded")?;
 
         let record = db.ip_lookup(ip);
         let record = if let Ok(Record::LocationDb(rec)) = record {
