@@ -33,16 +33,13 @@ impl Ip2LocationService {
 #[async_trait]
 impl GeoIPService for Ip2LocationService {
     async fn lookup(&self, ip: IpAddr) -> Result<GeoIPInfo, String> {
-        let db_file = ip.is_ipv4().then_some(&self.database_file).or({
-            match &self.database_file_ipv6 {
-                Some(file) => Some(file),
-                None => Some(&self.database_file), // if no IPv6 database file is specified, use the general one provided
-            }
-        });
+        let db_file = match ip {
+            IpAddr::V4(_) => &self.database_file,
+            IpAddr::V6(_) => self.database_file_ipv6.as_ref().unwrap_or(&self.database_file),
+        };
 
-        // We can safely unwrap here as if ipv6 database would be empty we'll use general one
         let mut db =
-            DB::from_file(db_file.unwrap()).map_err(|_| "database file can't be loaded")?;
+            DB::from_file(db_file).map_err(|_| "database file can't be loaded")?;
 
         let record = db.ip_lookup(ip);
         let record = if let Ok(Record::LocationDb(rec)) = record {
