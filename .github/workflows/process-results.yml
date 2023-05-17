@@ -23,6 +23,21 @@ jobs:
       EXTENSION: ${{ inputs.extension }}
       REPOSITORY: ${{ inputs.repository }}
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: latest-result
+          path: ./
+      - name: 'Produce viz state file'
+        run: |
+          if [ "$NAME" != "crawler" ]; then
+            exit 0
+          fi 
+          # curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal && source "$HOME/.cargo/env"
+          rustup toolchain install stable --profile minimal
+          git clone https://github.com/runziggurat/crunchy --depth 1
+          cd crunchy
+          cargo run --release -- -i ../latest.$EXTENSION -o ../latest.viz.$EXTENSION
+          cd ..
       - uses: actions/checkout@v3
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -32,15 +47,14 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
           version: '>= 363.0.0'
-      - uses: actions/download-artifact@v3
-        with:
-          name: latest-result
-          path: ./
       - name: Upload results to GCS
         run: |
           FILENAME=$(date +%Y-%m-%d)
           cp latest.$EXTENSION $FILENAME.$EXTENSION
           gzip $FILENAME.$EXTENSION
 
-          gsutil -m cp -r $FILENAME.$EXTENSION.gz gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+          gsutil -m cp latest.$EXTENSION $FILENAME.$EXTENSION.gz gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+          if [ "$NAME" == "crawler" ]; then
+            gsutil -m cp latest.viz.$EXTENSION gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+          fi
 
