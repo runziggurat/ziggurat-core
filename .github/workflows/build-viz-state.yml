@@ -1,15 +1,9 @@
 on:
   workflow_call:
-    inputs:
-      repository:
-        type: string
-        required: true
 
 jobs:
   viz-state:
     runs-on: ubuntu-latest
-    env:
-      REPOSITORY: ${{ inputs.repository }}
     steps:
       - uses: actions/download-artifact@v3
         with:
