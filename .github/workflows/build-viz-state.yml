@@ -1,0 +1,25 @@
+on:
+  workflow_call:
+    inputs:
+      repository:
+        type: string
+        required: true
+
+jobs:
+  viz-state:
+    runs-on: ubuntu-latest
+    env:
+      REPOSITORY: ${{ inputs.repository }}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: latest-result
+      - run: rustup toolchain install stable --profile minimal
+      - uses: actions/checkout@v3
+        with:
+          repository: runziggurat/crunchy
+      - run: cargo run --release -- -i latest.json -o latest.viz.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: latest-result
+          path: latest.viz.json
