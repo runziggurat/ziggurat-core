@@ -26,6 +26,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: latest-result
+          path: ./artifacts
       - uses: actions/checkout@v3
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -38,9 +39,9 @@ jobs:
       - name: Upload results to GCS
         run: |
           FILENAME=$(date +%Y-%m-%d)
-          cp latest.$EXTENSION $FILENAME.$EXTENSION
-          gzip $FILENAME.$EXTENSION
+          cp artifacts/latest.$EXTENSION artifacts/$FILENAME.$EXTENSION
+          gzip artifacts/$FILENAME.$EXTENSION
 
           ls -a
-          gsutil -m cp -r . gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+          gsutil -m cp -r artifacts/.  gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
 
