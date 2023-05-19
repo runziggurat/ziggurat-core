@@ -23,6 +23,10 @@ jobs:
       EXTENSION: ${{ inputs.extension }}
       REPOSITORY: ${{ inputs.repository }}
     steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: latest-result
+          path: ./artifacts
       - uses: actions/checkout@v3
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
@@ -32,15 +36,11 @@ jobs:
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
           version: '>= 363.0.0'
-      - uses: actions/download-artifact@v3
-        with:
-          name: latest-result
-          path: ./
       - name: Upload results to GCS
         run: |
           FILENAME=$(date +%Y-%m-%d)
-          cp latest.$EXTENSION $FILENAME.$EXTENSION
-          gzip $FILENAME.$EXTENSION
+          cp artifacts/latest.$EXTENSION artifacts/$FILENAME.$EXTENSION
+          gzip artifacts/$FILENAME.$EXTENSION
 
-          gsutil -m cp -r $FILENAME.$EXTENSION.gz gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+          gsutil -m cp -r artifacts/*  gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
 

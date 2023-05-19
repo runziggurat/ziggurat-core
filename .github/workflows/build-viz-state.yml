@@ -1,0 +1,22 @@
+on:
+  workflow_call:
+
+jobs:
+  viz-state:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: latest-result
+      - uses: Swatinem/rust-cache@v2
+      - uses: cachix/install-nix-action@v19
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v3
+        with:
+          repository: runziggurat/crunchy
+      - run: cargo run --release -- -i latest.json -o latest.viz.json
+      - uses: actions/upload-artifact@v3
+        with:
+          name: latest-result
+          path: latest.viz.json
