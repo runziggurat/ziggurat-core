@@ -8,7 +8,10 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: latest-result
-      - run: rustup toolchain install stable --profile minimal
+      - uses: Swatinem/rust-cache@v2
+      - uses: cachix/install-nix-action@v19
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v3
         with:
           repository: runziggurat/crunchy

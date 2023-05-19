@@ -42,6 +42,5 @@ jobs:
           cp artifacts/latest.$EXTENSION artifacts/$FILENAME.$EXTENSION
           gzip artifacts/$FILENAME.$EXTENSION
 
-          ls -a
-          gsutil -m cp -r artifacts/.  gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
+          gsutil -m cp -r artifacts/*  gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME
 
