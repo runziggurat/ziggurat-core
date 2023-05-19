@@ -6,6 +6,8 @@ on:
 jobs:
   viz-state:
     runs-on: ubuntu-latest
+    env:
+      FILTER: ${{ inputs.filter }}
     steps:
       - uses: actions/download-artifact@v3
         with:
@@ -19,7 +21,7 @@ jobs:
           repository: runziggurat/crunchy
       - if: ${{ inputs.filter != '' }}
         name: Generate filtered state
-        run: cargo run --release -- -f {{ inputs.filter }} -i latest.json -o latest.viz.json
+        run: cargo run --release -- -f $FILTER -i latest.json -o latest.viz.json
       - if: ${{ inputs.filter == '' }}
         name: Generate unfiltered state
         run: cargo run --release -- -i latest.json -o latest.viz.json
