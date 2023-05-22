@@ -1,16 +1,34 @@
 on:
   workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+      repository:
+        type: string
+        required: true
+    secrets:
+      gcp_credentials:
+        description: service account used to download results from GCS
+        required: true
 
 jobs:
   diff-with-previous:
     runs-on: ubuntu-latest
     steps:
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.gcp_credentials }}
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
+        with:
+          version: '>= 363.0.0'
       - uses: actions/download-artifact@v3
         with:
           name: latest-result
-      - uses: actions/download-artifact@v3
-        with:
-          name: previous-result
+      - name: Download previous result from GCS
+        run: gsutil cp gs://egq-runziggurat-$REPOSITORY-bucket/results/$NAME/latest.jsonl previous.jsonl
       - name: Compare results
         run: |
           # Helper function to remove ignored tests and started ones, and then attributes exec_time and type
