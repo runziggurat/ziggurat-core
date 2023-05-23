@@ -15,11 +15,15 @@ on:
 jobs:
   diff-with-previous:
     runs-on: ubuntu-latest
+    env:
+      NAME: ${{ inputs.name }}
+      REPOSITORY: ${{ inputs.repository }}
     steps:
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: ${{ secrets.gcp_credentials }}
+          create_credentials_file: false
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
