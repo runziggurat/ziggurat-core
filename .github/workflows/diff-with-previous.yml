@@ -19,11 +19,11 @@ jobs:
       NAME: ${{ inputs.name }}
       REPOSITORY: ${{ inputs.repository }}
     steps:
+      - uses: actions/checkout@v3
       - id: 'auth'
         uses: 'google-github-actions/auth@v1'
         with:
           credentials_json: ${{ secrets.gcp_credentials }}
-          create_credentials_file: false
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v1'
         with:
