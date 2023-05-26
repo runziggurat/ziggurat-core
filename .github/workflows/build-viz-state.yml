@@ -6,6 +6,7 @@ on:
 jobs:
   viz-state:
     runs-on: ubuntu-latest
+    continue-on-error: true
     env:
       FILTER: ${{ inputs.filter }}
     steps:
