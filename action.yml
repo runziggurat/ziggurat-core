@@ -1,0 +1,43 @@
+name: 'Run Ziggurat test suite'
+
+inputs:
+  node-name:
+    type: string
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/download-artifact@v3
+      with:
+        name: ziggurat-config
+        path: ~/.ziggurat
+    - uses: actions/download-artifact@v3
+      with:
+        name: ziggurat-executable
+        path: ./ziggurat
+    - uses: actions/download-artifact@v3
+      with:
+        name: node-executable
+        path: ./
+    - name: Make node executable
+      shell: bash
+      env:
+        NODE_NAME: ${{ inputs.node-name }}
+      run: chmod +x ./"$NODE_NAME"
+    - name: Cleanup temp files and prepare test binary
+      shell: bash
+      run: |
+        rm ./ziggurat/*.d
+        mv ./ziggurat/ziggurat_* ziggurat_test
+        chmod +x ziggurat_test
+    - name: Run ziggurat suite
+      shell: bash
+      continue-on-error: true
+      run: ./ziggurat_test --test-threads=1 --nocapture -Z unstable-options --report-time --format json >> latest.jsonl
+    - run: cat latest.jsonl
+      shell: bash
+    - uses: actions/upload-artifact@v3
+      with:
+        name: latest-result
+        path: latest.jsonl
