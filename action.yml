@@ -4,6 +4,9 @@ inputs:
   node-name:
     type: string
     required: true
+  commit-hash:
+    type: string
+    required: true
 
 runs:
   using: "composite"
@@ -31,6 +34,14 @@ runs:
         rm ./ziggurat/*.d
         mv ./ziggurat/ziggurat_* ziggurat_test
         chmod +x ziggurat_test
+    - name: Procure metadata
+      shell: bash
+      env:
+        NODE_NAME: ${{ inputs.node-name }}
+        COMMIT_HASH: ${{ inputs.commit-hash }}
+      run: |
+        echo "{ \"type\": \"node\", \"name\": \""$NODE_NAME"\" }" > latest.jsonl
+        echo "{ \"type\": \"node\", \"commit\": \""$COMMIT_HASH"\" }" >> latest.jsonl
     - name: Run ziggurat suite
       shell: bash
       continue-on-error: true
