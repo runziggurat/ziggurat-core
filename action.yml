@@ -13,10 +13,6 @@ runs:
   steps:
     - uses: actions/download-artifact@v3
       with:
-        name: ziggurat-config
-        path: ~/.ziggurat
-    - uses: actions/download-artifact@v3
-      with:
         name: ziggurat-executable
         path: ./ziggurat
     - uses: actions/download-artifact@v3
