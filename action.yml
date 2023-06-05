@@ -15,15 +15,6 @@ runs:
       with:
         name: ziggurat-executable
         path: ./ziggurat
-    - uses: actions/download-artifact@v3
-      with:
-        name: node-executable
-        path: ./
-    - name: Make node executable
-      shell: bash
-      env:
-        NODE_NAME: ${{ inputs.node-name }}
-      run: chmod +x ./"$NODE_NAME"
     - name: Cleanup temp files and prepare test binary
       shell: bash
       run: |
