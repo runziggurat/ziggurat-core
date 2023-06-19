@@ -9,7 +9,7 @@ jobs:
   build-ziggurat:
     runs-on: ubuntu-latest
     env:
-      EXTRA_ARGS: ${{ inputs.features }}
+      EXTRA_ARGS: ${{ inputs.extra-args }}
     steps:
       - uses: actions/checkout@v3
       - run: rustup toolchain install nightly --profile minimal
